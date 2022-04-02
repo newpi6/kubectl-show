@@ -21,7 +21,7 @@ class InstallScripts(install_scripts):
 
 # Do not edit these constants. They will be updated automatically
 # by scripts/update-client.sh.
-CLIENT_VERSION = "22.1.0.8"
+CLIENT_VERSION = "22.1.0.9"
 PACKAGE_NAME = "kubectl-show"
 # DEVELOPMENT_STATUS = "4 - Beta"
 DEVELOPMENT_STATUS = "5 - Production/Stable"

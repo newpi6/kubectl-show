@@ -108,7 +108,7 @@ class KubernetesCli:
             return api.list_ingress_for_all_namespaces()
         return api.list_namespaced_ingress(namespace=self._namespace)
 
-    def _get_resp_sercret(self):
+    def _get_resp_secret(self):
         """CoreV1Api"""
         corev1api = client.api.CoreV1Api()
         if self._ALL:
@@ -129,6 +129,10 @@ class KubernetesCli:
             return api.list_replica_set_for_all_namespaces()
         return api.list_namespaced_replica_set(namespace=self._namespace)
 
+    def _get_resp_event(self):
+        api = client.api.EventsV1Api()
+        if self._ALL:
+            return
 
 
     def _run_f(self, func):
@@ -173,7 +177,7 @@ class KubernetesCli:
         table_data = []
         table_headers = []
         if self._ALL:
-            ns_list = self._get_resp_namespace(rtype='ns-list')
+            ns_list = ['all-namespaces'] + self._get_resp_namespace(rtype='ns-list')
             table_data = {'namespace': ns_list}
             table_headers = "keys"
             for r in self._resource:
@@ -183,6 +187,7 @@ class KubernetesCli:
                     for item in resp.items:
                         index = ns_list.index(item.metadata.namespace)
                         _tmp_list[index] += 1
+                        _tmp_list[0] += 1
                     table_data[r] = _tmp_list
         else:
             table_headers = "keys"
@@ -202,6 +207,14 @@ class KubernetesCli:
     def counts(self):
         """counts = count"""
         return self.count()
+
+    def event(self):
+        api = client.api.EventsV1Api()
+        if self._ALL:
+            return
+
+    def events(self):
+        return self.event()
 
 
 def main():
