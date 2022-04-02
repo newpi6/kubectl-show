@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: default
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      imagePullSecrets: []
+        #node.type: db
+      nodeSelector: {}
+      tolerations: []
+      #- key: "only"
+      #  operator: "Equal"
+      #  value: "db"
+      #  effect: "NoSchedule"
+      affinity:
+        podAntiAffinity: {}
+        nodeAffinity: {}
+      volumes: []
+      #- name: postgres
+      #  hostPath:
+      #    path: /data/middleware-data/postgres-data
+      #    type: DirectoryOrCreate
+      containers:
+      - image: nginx
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        args: []
+        env: []
+        ports:
+          - containerPort: 80
+            name: http
+        volumeMounts: []
+          #- name: postgres
+          #  subPath: postgres
+          #  mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: 50Mi
+            cpu: 100m
+            ephemeral-storage: "2Gi"
+          limits:
+            memory: 50Mi
+            cpu: 100m
+            ephemeral-storage: "10Gi"

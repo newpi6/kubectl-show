@@ -1,3 +1,4 @@
 kubernetes==22.6.0 # Apache-2.0
 tabulate>=0.8.9 # MIT
 fire>=0.4.0 # Apache-2.0
+Jinja2>=3.1.1 # BSD-3-Clause

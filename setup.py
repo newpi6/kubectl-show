@@ -21,7 +21,7 @@ class InstallScripts(install_scripts):
 
 # Do not edit these constants. They will be updated automatically
 # by scripts/update-client.sh.
-CLIENT_VERSION = "22.1.0.9"
+CLIENT_VERSION = "22.1.0.11"
 PACKAGE_NAME = "kubectl-show"
 # DEVELOPMENT_STATUS = "4 - Beta"
 DEVELOPMENT_STATUS = "5 - Production/Stable"
@@ -48,6 +48,9 @@ with open('requirements.txt') as f:
         else:
             REQUIRES.append(line)
 
+with open('README.md', 'r', encoding='utf-8') as f:
+    LONG_DESCRIPTION = f.read()
+
 # with open('test-requirements.txt') as f:
 #     TESTS_REQUIRES = f.readlines()
 
@@ -56,21 +59,29 @@ setup(
     name=PACKAGE_NAME,
     version=CLIENT_VERSION,
     description="kubectl python plugin",
-    author_email="",
+    author_email="harveyzhwei@gmail.com",
     author="harvey",
     license="MIT",
     url="https://github.com/newpi6/kubectl-show.git",
+    project_urls={
+        "Document": "https://github.com/newpi6/kubectl-show.git",
+        "Source Code": "https://github.com/newpi6/kubectl-show.git",
+        "Issue Tracker": "https://github.com/newpi6/kubectl-show/issues",
+    },
     keywords=["kubectl", "Kubernetes"],
     install_requires=REQUIRES,
     # tests_require=TESTS_REQUIRES,
     extras_require=EXTRAS,
-    packages=find_packages(exclude=['tests.*', 'tests']),
+    # packages=find_packages(exclude=['tests.*', 'tests']),
+    packages=["kubectl_show","kubectl_show.templates","kubectl_show.cli"],
     include_package_data=True,
-    long_description="kubectl python plugin https://github.com/newpi6/kubectl-show.git",
+    long_description="kubectl python plugin https://github.com/newpi6/kubectl-show.git" + LONG_DESCRIPTION,
+    long_description_content_type='text/x-rst',
     python_requires='>=3.6',
     entry_points={
         'console_scripts': ['kubectl-show=kubectl_show.main:main'],
     },
+    # data_files=[('templates',['templates',])],
     classifiers=[
         "Development Status :: %s" % DEVELOPMENT_STATUS,
         "Topic :: Utilities",

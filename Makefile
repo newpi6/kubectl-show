@@ -3,5 +3,10 @@ clean:
 
 upload:
 	rm -rf dist kubectl_show.egg-info ;
-	python3 setup.py sdist;
-	python3 -m twine upload dist/*.gz --verbose
+	python3 setup.py sdist bdist_wheel;
+	python3 -m twine upload dist/* --verbose
+
+upload-test:
+	rm -rf dist kubectl_show.egg-info ;
+	python3 setup.py sdist bdist_wheel;
+	python3 -m twine  upload -r testpypi dist/* --verbose
