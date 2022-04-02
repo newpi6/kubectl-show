@@ -1,0 +1,9 @@
+.idea
+
+Pipfile
+Pipfile.lock
+venv
+*.pyc
+build
+dist
+*.egg-info
