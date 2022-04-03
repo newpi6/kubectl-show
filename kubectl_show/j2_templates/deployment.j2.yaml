@@ -1,10 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
-  namespace: default
+  name: {{ _name or 'nginx' }}
+  {% if _namespace -%}
+  namespace: {{ _namespace }}
+  {%- endif %}
 spec:
-  replicas: 3
+  replicas: {{ _replicas }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -12,15 +14,15 @@ spec:
       maxUnavailable: 50%
   selector:
     matchLabels:
-      app: nginx
+      app: {{ _name or 'nginx' }}
   template:
     metadata:
       labels:
-        app: nginx
+        app: {{ _name or 'nginx' }}
     spec:
       imagePullSecrets: []
-        #node.type: db
       nodeSelector: {}
+        #node.type: db
       tolerations: []
       #- key: "only"
       #  operator: "Equal"
@@ -35,9 +37,9 @@ spec:
       #    path: /data/middleware-data/postgres-data
       #    type: DirectoryOrCreate
       containers:
-      - image: nginx
+      - image: {{ _name or 'nginx' }}
         imagePullPolicy: IfNotPresent
-        name: nginx
+        name: {{ _name or 'nginx' }}
         args: []
         env: []
         ports:

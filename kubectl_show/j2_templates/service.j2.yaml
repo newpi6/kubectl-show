@@ -1,10 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: {{ _name or 'nginx' }}
+  {% if _namespace -%}
+  namespace: {{ _namespace }}
+  {%- endif %}
 spec:
   selector:
-    app: nginx
+    app: {{ _name or 'nginx' }}
   ports:
     - protocol: TCP
       port: 80
