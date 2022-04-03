@@ -3,7 +3,8 @@ include OWNERS
 include *.md
 include *.txt
 include *.ini
-include kubectl_show/templates/*.yaml
+include kubectl_show/j2_templates/*.yaml
+include kubectl_show/default_templates/*/*.yaml
 
 exclude .gitignore
 exclude .gitreview

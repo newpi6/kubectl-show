@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        name: fluentd-elasticsearch
+        app: {{ _name or 'nginx' }}
     spec:
       tolerations:
       # this toleration is to have the daemonset runnable on master nodes
@@ -23,25 +23,26 @@ spec:
         operator: Exists
         effect: NoSchedule
       containers:
-      - name: fluentd-elasticsearch
-        image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+      - name: {{ _name or 'nginx' }}
+        image: {{ _image or 'nginx' }}
         resources:
           limits:
-            memory: 200Mi
-          requests:
+            memory: 50Mi
             cpu: 100m
-            memory: 200Mi
-        volumeMounts:
-        - name: varlog
-          mountPath: /var/log
-        - name: varlibdockercontainers
-          mountPath: /var/lib/docker/containers
-          readOnly: true
+          requests:
+            memory: 50Mi
+            cpu: 100m
+        volumeMounts: []
+        #- name: varlog
+        #  mountPath: /var/log
+        #- name: varlibdockercontainers
+        #  mountPath: /var/lib/docker/containers
+        #  readOnly: true
       terminationGracePeriodSeconds: 30
-      volumes:
-      - name: varlog
-        hostPath:
-          path: /var/log
-      - name: varlibdockercontainers
-        hostPath:
-          path: /var/lib/docker/containers
+      volumes: []
+      #- name: varlog
+      #  hostPath:
+      #    path: /var/log
+      #- name: varlibdockercontainers
+      #  hostPath:
+      #    path: /var/lib/docker/containers

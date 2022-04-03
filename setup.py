@@ -1,27 +1,12 @@
-import setuptools
 from setuptools import setup, find_packages
-from setuptools.command.install_scripts import install_scripts
-import shutil
 
-
-class InstallScripts(install_scripts):
-
-    def run(self):
-        setuptools.command.install_scripts.install_scripts.run(self)
-
-        # Rename some script files
-        for script in self.get_outputs():
-            if script.endswith(".py") or script.endswith(".sh"):
-                dest = script[:-3]
-            else:
-                continue
-            print("moving %s to %s" % (script, dest))
-            shutil.move(script, dest)
+import kubectl_show
 
 
 # Do not edit these constants. They will be updated automatically
 # by scripts/update-client.sh.
-CLIENT_VERSION = "22.1.0.11"
+# CLIENT_VERSION = "22.1.0.11.a3"
+CLIENT_VERSION = kubectl_show.__version__
 PACKAGE_NAME = "kubectl-show"
 # DEVELOPMENT_STATUS = "4 - Beta"
 DEVELOPMENT_STATUS = "5 - Production/Stable"
@@ -55,7 +40,6 @@ with open('README.md', 'r', encoding='utf-8') as f:
 #     TESTS_REQUIRES = f.readlines()
 
 setup(
-
     name=PACKAGE_NAME,
     version=CLIENT_VERSION,
     description="kubectl python plugin",
@@ -72,16 +56,17 @@ setup(
     install_requires=REQUIRES,
     # tests_require=TESTS_REQUIRES,
     extras_require=EXTRAS,
-    # packages=find_packages(exclude=['tests.*', 'tests']),
-    packages=["kubectl_show","kubectl_show.templates","kubectl_show.cli"],
+    packages=find_packages(exclude=['tests.*', 'tests']),
+    # packages=["kubectl_show","kubectl_show.j2_templates","kubectl_show.default_templates","kubectl_show.cli"],
     include_package_data=True,
-    long_description="kubectl python plugin https://github.com/newpi6/kubectl-show.git" + LONG_DESCRIPTION,
-    long_description_content_type='text/x-rst',
+    long_description="kubectl python plugin https://github.com/newpi6/kubectl-show.git" + "\n" + LONG_DESCRIPTION,
+    # long_description_content_type='text/x-rst',
+    long_description_content_type='text/markdown',
     python_requires='>=3.6',
     entry_points={
         'console_scripts': ['kubectl-show=kubectl_show.main:main'],
     },
-    # data_files=[('templates',['templates',])],
+    # data_files=[('j2_templates',['j2_templates',])],
     classifiers=[
         "Development Status :: %s" % DEVELOPMENT_STATUS,
         "Topic :: Utilities",

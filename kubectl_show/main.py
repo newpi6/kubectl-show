@@ -10,18 +10,27 @@
 @Module
 """
 
+from __future__ import absolute_import
+
 import fire
 
-from .cli import KubernetesQueryCli, KubernetesTemplateCli
+import kubectl_show
+from kubectl_show.cli import KubernetesQueryCli, KubernetesTemplateCli
+
+
+def version():
+    return kubectl_show.__version__
 
 
 def main():
     fire.Fire({
         "q": KubernetesQueryCli,
         "query": KubernetesQueryCli,
+        "g": KubernetesTemplateCli,
         "generate": KubernetesTemplateCli,
-        "gen": KubernetesTemplateCli,
+        "version": version,
     })
+
 
 if __name__ == '__main__':
     main()

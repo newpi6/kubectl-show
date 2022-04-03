@@ -121,6 +121,13 @@ class KubernetesQueryCli(KubernetesCliBase):
             return api.list_replica_set_for_all_namespaces()
         return api.list_namespaced_replica_set(namespace=self._namespace)
 
+    def _get_resp_daemonset(self):
+        """AppsV1Api"""
+        api = self._appsv1api
+        if self._ALL:
+            return api.list_daemon_set_for_all_namespaces()
+        return api.list_namespaced_daemon_set(namespace=self._namespace)
+
     def _get_resp_event(self):
         api = client.api.EventsV1Api()
         if self._ALL:
