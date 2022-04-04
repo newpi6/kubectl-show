@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: {{ _name or 'nginx' }}
+  name: {{ _name or 'nginx-example' }}
   {% if _namespace -%}
   namespace: {{ _namespace }}
   {%- endif %}
   labels:
-    app: {{ _name or 'nginx' }}
+    app: {{ _name or 'nginx-example' }}
 spec:
   selector:
     matchLabels:
-      app: {{ _name or 'nginx' }}
+      app: {{ _name or 'nginx-example' }}
   template:
     metadata:
       labels:
-        app: {{ _name or 'nginx' }}
+        app: {{ _name or 'nginx-example' }}
     spec:
       tolerations:
       # this toleration is to have the daemonset runnable on master nodes
@@ -23,7 +23,7 @@ spec:
         operator: Exists
         effect: NoSchedule
       containers:
-      - name: {{ _name or 'nginx' }}
+      - name: {{ _name or 'nginx-example' }}
         image: {{ _image or 'nginx' }}
         resources:
           limits:

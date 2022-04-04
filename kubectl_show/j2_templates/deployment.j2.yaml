@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ _name or 'nginx' }}
+  name: {{ _name or 'nginx-example' }}
   {% if _namespace -%}
   namespace: {{ _namespace }}
-  {%- endif %}
+  {% endif -%}
 spec:
   replicas: {{ _replicas }}
   strategy:
@@ -14,13 +14,20 @@ spec:
       maxUnavailable: 50%
   selector:
     matchLabels:
-      app: {{ _name or 'nginx' }}
+      app: {{ _name or 'nginx-example' }}
   template:
     metadata:
       labels:
-        app: {{ _name or 'nginx' }}
+        app: { { _name or 'nginx-example' } }
     spec:
+      {% if _imagePullSecrets -%}
+      imagePullSecrets:
+      {% for secret in _imagePullSecrets -%}
+      - name: {{ secret }}
+      {% endfor -%}
+      {% else -%}
       imagePullSecrets: []
+      {% endif -%}
       nodeSelector: {}
         #node.type: db
       tolerations: []
@@ -39,7 +46,7 @@ spec:
       containers:
       - image: {{ _name or 'nginx' }}
         imagePullPolicy: IfNotPresent
-        name: {{ _name or 'nginx' }}
+        name: {{ _name or 'nginx-example' }}
         args: []
         env: []
         ports:
@@ -51,10 +58,14 @@ spec:
           #  mountPath: /var/lib/postgresql/data
         resources:
           requests:
-            memory: 50Mi
-            cpu: 100m
-            ephemeral-storage: "2Gi"
+            memory: {{ _rrm }}
+            cpu: {{ _rrc }}
+            {%- if _rre %}
+            ephemeral-storage: {{ _rre }}
+            {%- endif %}
           limits:
-            memory: 50Mi
-            cpu: 100m
-            ephemeral-storage: "10Gi"
+            memory: {{ _rlm }}
+            cpu: {{ _rlc }}
+            {%- if _rle %}
+            ephemeral-storage: {{ _rle }}
+            {%- endif %}

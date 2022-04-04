@@ -10,6 +10,7 @@
 @Module
 """
 import os.path
+import time
 
 from kubernetes import client, config
 import urllib3
@@ -129,9 +130,10 @@ class KubernetesQueryCli(KubernetesCliBase):
         return api.list_namespaced_daemon_set(namespace=self._namespace)
 
     def _get_resp_event(self):
-        api = client.api.EventsV1Api()
+        api = self._corev1api
         if self._ALL:
-            return
+            return api.list_event_for_all_namespaces()
+        return api.list_namespaced_event(namespace=self._namespace)
 
     def _run_f(self, func):
         try:
@@ -205,12 +207,3 @@ class KubernetesQueryCli(KubernetesCliBase):
     def counts(self):
         """counts = count"""
         return self.count()
-
-    def event(self):
-        api = client.api.EventsV1Api()
-        if self._ALL:
-            return
-
-    def events(self):
-        return self.event()
-

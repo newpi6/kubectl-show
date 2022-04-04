@@ -10,8 +10,6 @@
 @Module
 """
 
-from __future__ import absolute_import
-
 import fire
 
 import kubectl_show
@@ -19,7 +17,7 @@ from kubectl_show.cli import KubernetesQueryCli, KubernetesTemplateCli
 
 
 def version():
-    return kubectl_show.__version__
+    return f"kubectl-show version: {kubectl_show.__version__}, support kubenertes 1.21-1.23"
 
 
 def main():
@@ -30,7 +28,3 @@ def main():
         "generate": KubernetesTemplateCli,
         "version": version,
     })
-
-
-if __name__ == '__main__':
-    main()
