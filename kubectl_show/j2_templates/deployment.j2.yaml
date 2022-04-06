@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ _name or 'nginx-example' }}
-  {% if _namespace -%}
+  {%- if _namespace %}
   namespace: {{ _namespace }}
-  {% endif -%}
+  {%- endif %}
 spec:
   replicas: {{ _replicas }}
   strategy:
@@ -18,7 +18,7 @@ spec:
   template:
     metadata:
       labels:
-        app: { { _name or 'nginx-example' } }
+        app: {{ _name or 'nginx-example' }}
     spec:
       {% if _imagePullSecrets -%}
       imagePullSecrets:
@@ -44,7 +44,7 @@ spec:
       #    path: /data/middleware-data/postgres-data
       #    type: DirectoryOrCreate
       containers:
-      - image: {{ _name or 'nginx' }}
+      - image: {{ _image or 'nginx' }}
         imagePullPolicy: IfNotPresent
         name: {{ _name or 'nginx-example' }}
         args: []
@@ -69,3 +69,25 @@ spec:
             {%- if _rle %}
             ephemeral-storage: {{ _rle }}
             {%- endif %}
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: 80
+          #    scheme: HTTP
+          #  failureThreshold: 3
+          #  initialDelaySeconds: 30
+          #  periodSeconds: 30
+          #  successThreshold: 1
+          #  timeoutSeconds: 10
+          #readinessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: 80
+          #    scheme: HTTP
+          #lifecycle:
+          #  postStart:
+          #    exec:
+          #      command: []
+          #  preStop:
+          #    exec:
+          #      command: []
