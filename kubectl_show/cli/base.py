@@ -17,29 +17,41 @@ class KubernetesCliBase:
     @property
     def _map(self):
         kind_map = {
-            "pod": "pod",
-            "pods": "pod",
-            "deploy": "deployment",
-            "deployment": "deployment",
-            "deployments": "deployment",
-            "ds": "daemonset",
-            "daemonset": "daemonset",
-            "daemonsets": "daemonset",
             "cm": "configmap",
             "configmap": "configmap",
             "configmaps": "configmap",
-            "secret": "secret",
-            "secrets": "secret",
-            "svc": "service",
-            "service": "service",
-            "services": "service",
+
+            "crb": "clusterrolebinding",
+            "clusterrolebinding":"clusterrolebinding",
+            "clusterrolebindings": "clusterrolebinding",
+
+            "deploy": "deployment",
+            "deployment": "deployment",
+            "deployments": "deployment",
+
+            "ds": "daemonset",
+            "daemonset": "daemonset",
+            "daemonsets": "daemonset",
+
             "ingress": "ingress",
-            "rc": "replicaset",
-            "replicaset": "replicaset",
-            "replicasets": "replicaset",
+
+            "pod": "pod",
+            "pods": "pod",
+
             "pvc": "persistentvolumeclaim",
             "persistentvolumeclaim": "persistentvolumeclaim",
             "persistentvolumeclaims": "persistentvolumeclaim",
+
+            "rc": "replicaset",
+            "replicaset": "replicaset",
+            "replicasets": "replicaset",
+
+            "secret": "secret",
+            "secrets": "secret",
+
+            "svc": "service",
+            "service": "service",
+            "services": "service",
         }
         return kind_map
 

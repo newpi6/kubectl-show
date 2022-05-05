@@ -28,6 +28,7 @@ class KubernetesTemplateCli(KubernetesCliBase):
 
     def __init__(self, kind=('deployment',), namespace=None, name=None, image=None, replicas=1,
                  imagePullSecrets=None, nodeSelector=None, tolerations=None,
+                 clusterrole=None,
                  rrm='50Mi', rrc='100m', rre=None,
                  rlm='50Mi', rlc='100m', rle=None):
         self._kind = self._parse_kind(kind)
@@ -44,6 +45,7 @@ class KubernetesTemplateCli(KubernetesCliBase):
         self._rlm = self._parse_arg(rlm)  # resources.limits.memory
         self._rlc = self._parse_arg(rlc)  # resources.limits.cpu
         self._rle = self._parse_arg(rle)  # resources.limits.ephemeral-storage
+        self._crn = self._parse_arg(clusterrole)
 
     def _parse_arg(self, arg):
         return None if isinstance(arg, bool) else arg
@@ -60,6 +62,6 @@ class KubernetesTemplateCli(KubernetesCliBase):
             try:
                 j2_list.append(t_env.get_template(j2_file))
             except Exception as e:
-                print(e)
+                print("error",e)
                 continue
         return "\n---\n".join([j2.render({**self.__dict__}) for j2 in j2_list])
